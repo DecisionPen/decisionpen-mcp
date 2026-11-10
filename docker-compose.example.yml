@@ -1,0 +1,18 @@
+# Example: scheduled edge sync against DecisionPen.
+# Copy to docker-compose.yml, copy examples/edge.env.example → edge.env, then:
+#   docker compose run --rm edge sync --dry-run
+#   docker compose run --rm edge sync
+services:
+  edge:
+    image: decisionpen-mcp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - edge.env
+    volumes:
+      - dp-sync:/data
+    command: ["sync"]
+
+volumes:
+  dp-sync:

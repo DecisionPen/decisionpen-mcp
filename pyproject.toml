@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "decisionpen-mcp"
+version = "0.1.0"
+description = "DecisionPen MCP Server — enterprise architecture Context Engine for Claude Desktop, Cursor, and any MCP client."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "DecisionPen" }]
+keywords = [
+  "mcp",
+  "model-context-protocol",
+  "claude",
+  "claude-desktop",
+  "cursor",
+  "enterprise-architecture",
+  "decisionpen",
+  "context-engine",
+  "leanix",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+  "mcp>=2.0,<3",
+  "boto3>=1.28.0",
+  "requests>=2.28.0",
+  "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/DecisionPen/decisionpen-mcp"
+Documentation = "https://github.com/DecisionPen/decisionpen-mcp#readme"
+Issues = "https://github.com/DecisionPen/decisionpen-mcp/issues"
+Source = "https://github.com/DecisionPen/decisionpen-mcp"
+
+[project.scripts]
+decisionpen-mcp = "decisionpen_mcp.sync.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["decisionpen_mcp*"]

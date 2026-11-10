@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# DecisionPen MCP local secrets / runtime
+.env.mcp
+edge.env
+!.env*.example
+!examples/.env.mcp.example
+!examples/edge.env.example
+.venv-mcp/
+sync_state.json
+.decisionpen_mcp_audit.jsonl
+*.audit.jsonl
+.DS_Store
+.idea/
