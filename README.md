@@ -1,4 +1,4 @@
-# DecisionPen MCP Server — Enterprise Architecture Context Engine
+# DecisionPen Context Engine (MCP)
 
 **Works with [Claude Desktop](https://claude.ai/download), [Cursor](https://cursor.com), and any [Model Context Protocol (MCP)](https://modelcontextprotocol.io) client.**
 
@@ -6,233 +6,135 @@
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![DecisionPen](https://img.shields.io/badge/Product-decisionpen.com-0B3D5C.svg)](https://decisionpen.com/)
 
-Connect your AI assistant to a **governed enterprise architecture context engine** — not a wiki chatbot, and not an empty EA repository.
+**DecisionPen** is the Architecture Context Plane — institutional memory of how the enterprise is built and why. Agents help keep it current. Humans review what becomes trusted.
 
----
+This repository ships the **Context Engine**: an MCP server that connects Claude, Cursor, and other agents to that plane. Agents can read the Enterprise Knowledge Graph, evidence, and decisions; read allowlisted document stores; and publish requirements, ADRs, and notes back. **MCP never Confirmed-writes the architecture map.** Humans approve what joins the graph.
 
-## What is DecisionPen?
-
-[DecisionPen](https://decisionpen.com/) is an **Architecture Decision Workspace** for the agentic era. It blends:
-
-| Layer | What it holds |
+| Guide | What it covers |
 |-------|----------------|
-| **Structured map** | Applications, capabilities, technology, integrations, initiatives — metamodel-aware relationships (LeanIX-aligned when that standard matters) |
-| **Evidence context** | HLDs, PDFs, wiki pages, transcripts, notes — the How-and-Why behind the map, with citations |
+| **This page** | What DecisionPen is, what MCP does, and the tools in plain English |
+| [CONNECT.md](./CONNECT.md) | Connect Claude or Cursor (including Edge API tokens) |
+| [CONTEXT.md](./CONTEXT.md) | Tool recipes for research and solution design |
+| [SYNC.md](./SYNC.md) | S3 allowlist sync runbook |
+| Product docs | [decisionpen.com/docs/context-engine-mcp](https://decisionpen.com/docs/context-engine-mcp) |
 
-**AI proposes. Humans curate. The organisation interrogates a living map.**
+Marketing setup guides (SEO / step-by-step):
 
-It is built for questions like:
-
-- Which applications support this business capability, and who owns them?
-- What depends on this platform — and what is the blast radius if it changes?
-- Why was this pattern chosen, and which documents support that decision?
-- Which integrations are undocumented, inferred, or missing an owner?
-
-Answers are **map-grounded** and **evidence-aware** — not assembled from document similarity alone. Unknown is preferred to fabricated certainty. Learn more: [product overview](https://decisionpen.com/product) · [Enterprise Ask](https://decisionpen.com/docs/enterprise-ask) · [Architecture Decision Workspace](https://decisionpen.com/docs/architecture-decision-workspace).
-
-### The DecisionPen loop (product)
-
-1. **Seed or ingest** — CMDB/inventory spreadsheet, documents, transcripts, or natural language  
-2. **Propose** — AI drafts metamodel-aware entities, relationships, and enrichment  
-3. **Curate** — architects accept, edit, reject, or defer (nothing is canonical just because AI suggested it)  
-4. **Map & enrich** — accepted knowledge joins the living landscape  
-5. **Ask & generate** — plain-English interrogation; blueprints, ADRs, and diagrams as byproducts of truth  
+- [Connect DecisionPen to Cursor or Claude](https://decisionpen.com/docs/connect-mcp-cursor-claude)
+- [Connect an S3 document repository via MCP](https://decisionpen.com/docs/mcp-s3-document-store)
 
 ---
 
-## What is this MCP server?
+## Why MCP matters here
 
-[MCP](https://modelcontextprotocol.io) (Model Context Protocol) is how tools like Claude Desktop and Cursor call external systems safely.
+Enterprise discovery, institutional memory, agentic SDLC, agentic solution architecture, and living enterprise architecture all need the **same** harnessed context. Without it, agents invent topology or burn tokens re-reading the same HLDs.
 
-This repository is the **DecisionPen MCP server**. It lets your assistant:
+MCP is the two-way door:
 
-| Mode | Job | MCP role |
-|------|-----|----------|
-| **Research** (Context Engine) | Ask the curated landscape | Read Confirmed entities, relationships, and evidence; cite sources |
-| **Ingestion** (Edge connector) | Feed institutional memory | Browse/cite allowlisted S3 docs; optionally **propose** enrichment into DecisionPen’s Insights Inbox for human approval |
+1. **Read** — graph, evidence, decisions, open estate changes  
+2. **Read documents** — allowlisted object store (optional S3)  
+3. **Publish** — `submit_document` / `propose_enrichment` → Inbox → human approve  
 
-```text
-                    RESEARCH                         INGESTION
-                         │                                │
- Claude / Cursor  ──MCP──┼──► search / relationships /    │
-                         │    evidence / Ask              │
-                         │                                │
-                         │         Edge (optional)        │
-                         │    ◄── list / get S3 ──────────┤
-                         │    ──► propose → Inbox ────────►│
-                         ▼                                ▼
-                 DecisionPen API              Human curation
-              Confirmed map + evidence         then Confirmed map
-```
-
-**Division of labour**
-
-- **Claude / Cursor** — intent, reasoning, and writing  
-- **DecisionPen** — repository of record (Confirmed map + evidence)  
-- **This MCP server** — the bridge (stdio today; hosted/remote later)  
-
-MCP **never** Confirmed-writes the architecture map. Persist = human approve in Inbox.
+Same plane as built-in Enterprise Ask. Two doors; one Context of Record.
 
 ---
 
-## Why use MCP instead of pasting docs into chat?
+## Tools in plain English
 
-| Without DecisionPen MCP | With DecisionPen MCP |
-|-------------------------|----------------------|
-| AI invents integrations | Tools return **Confirmed** relationships only |
-| Paste screenshots / PDFs into Claude | Structured `search_entities` → relationships → evidence |
-| Catalogue search under-answers; RAG over-confidently invents | Map-grounded + evidence-cited answers; honest gaps |
-| SaaS holds your AWS keys | Optional **Edge** path keeps S3 credentials on your side |
+### Orient
 
-Ideal for enterprise architects, solution architects, platform teams, and anyone doing due diligence or transformation planning.
+| Tool | What it does |
+|------|----------------|
+| `describe_context_model` | Once per session: how the plane is layered (map, evidence, surfaces, Inbox). |
+
+### Read the Enterprise Knowledge Graph
+
+| Tool | What it does |
+|------|----------------|
+| `search_entities` | Find applications, capabilities, etc. by name. |
+| `get_entity` | Description, aliases, attributes for one entity. |
+| `get_entity_relationships` | Confirmed links on the map. |
+| `get_relationship_summary` | Quick counts by type/direction. |
+| `list_entity_types` / `batch_get_entities` | Filters and hydrate many entities. |
+
+### Read institutional memory
+
+| Tool | What it does |
+|------|----------------|
+| `get_entity_evidence` | Documents and notes bound to an entity (current by default). |
+| `search_evidence` | Semantic search; pass `entity_id` or a knowledge surface when you can. |
+| `list_derived_decisions` | Living architecture-decision / ADR cards on an entity. |
+| `list_entity_changes` | Open or recent estate changes (e.g. pending tech replace). |
+| `list_context_surfaces` / `get_surface_evidence` | Shared patterns, principles, security standards. |
+
+### Read document repositories (optional S3)
+
+| Tool | What it does |
+|------|----------------|
+| `list_sources` | Browse folders/files under the allowlisted prefix. |
+| `search_docs` | Search object keys. |
+| `get_document` | Fetch one object to cite (**does not** save into DecisionPen). |
+| `propose_enrichment` | Push an S3 object into DecisionPen for Inbox review. |
+| `run_sync` | Sync new/changed objects (also available as CLI). |
+| `get_enrichment_job` / `rerun_enrichment_job` | Poll or retry enrichment jobs. |
+
+### Publish (agents write; humans approve)
+
+| Tool | What it does |
+|------|----------------|
+| `submit_document` | Push UTF-8 text onto an entity or knowledge surface (no S3 required). |
+| `propose_enrichment` | Same Inbox path from an S3 object. |
+
+Requires `DP_MCP_MODE=propose` (or `persist_approved`). Nothing becomes Confirmed on the map until a steward accepts it in Inbox.
+
+### Ask (last resort)
+
+| Tool | What it does |
+|------|----------------|
+| `ask_decisionpen` | Server-side Ask with citations. Prefer structured tools above so the agent owns the research plan. |
+| `list_ask_skills` | Optional skill ids for Ask. |
 
 ---
 
-## 5-minute setup — Research (Context Engine)
+## Modes
 
-You need a DecisionPen workspace ([decisionpen.com](https://decisionpen.com/)), an **Edge API token** (Admin → Security & audit → Edge API tokens) or a session JWT for trials, and Python 3.10+.
+| `DP_MCP_MODE` | Behaviour |
+|---------------|-----------|
+| `cite_only` (default) | Read / cite. No push into DecisionPen. |
+| `propose` | Agents can submit documents and propose enrichment (Inbox). |
+| `persist_approved` | Advanced; still does not Confirmed-write the map from MCP. |
 
-### 1. Install
+---
+
+## Quick start
+
+1. Create an **Edge API token**: DecisionPen → **Admin → Security & audit → Edge API tokens → Create**.  
+2. Follow **[CONNECT.md](./CONNECT.md)** for Claude Desktop or Cursor.  
+3. For document repositories, follow **[SYNC.md](./SYNC.md)** and the [S3 docs page](https://decisionpen.com/docs/mcp-s3-document-store).
 
 ```bash
 git clone https://github.com/DecisionPen/decisionpen-mcp.git
 cd decisionpen-mcp
 python -m venv .venv
-# Windows: .\.venv\Scripts\Activate.ps1
-source .venv/bin/activate
+source .venv/bin/activate   # Windows: .\.venv\Scripts\Activate.ps1
 pip install -e .
-```
-
-### 2. Configure
-
-```bash
 cp examples/.env.mcp.example .env.mcp
-```
-
-Minimum for architecture Q&A (**no S3 required**):
-
-```bash
-DP_API_BASE=https://YOUR_DECISIONPEN_HOST
-DP_API_TOKEN=dp_edge_…
-DP_MCP_MODE=cite_only
-```
-
-### 3. Connect Claude Desktop
-
-**Settings → Developer → Edit Config**, then restart Claude:
-
-```json
-{
-  "mcpServers": {
-    "decisionpen": {
-      "command": "/ABSOLUTE/PATH/decisionpen-mcp/.venv/bin/python",
-      "args": ["-m", "decisionpen_mcp", "mcp"],
-      "env": {
-        "DP_API_BASE": "https://YOUR_DECISIONPEN_HOST",
-        "DP_API_TOKEN": "dp_edge_…",
-        "DP_MCP_MODE": "cite_only"
-      }
-    }
-  }
-}
-```
-
-Windows: use `…\\decisionpen-mcp\\.venv\\Scripts\\python.exe`.  
-Guide: **[docs/claude-desktop.md](./docs/claude-desktop.md)** · Cursor: **[docs/cursor.md](./docs/cursor.md)**
-
-### 4. Try a research prompt
-
-> Using DecisionPen, what applications support clinical trials? Prefer Confirmed map relationships; label evidence notes separately and cite sources.
-
-Claude should call Context Engine tools — not guess.
-
----
-
-## Research tools (Context Engine)
-
-| Tool | Purpose |
-|------|---------|
-| `describe_context_model` | Map vs notes; capability-first workflow |
-| `search_entities` | Name → id (search **capability/process first** for landscape asks) |
-| `get_entity` | Description, aliases, attributes |
-| `get_entity_relationships` | Confirmed edges |
-| `get_relationship_summary` | Typed / direction counts |
-| `get_entity_evidence` / `search_evidence` | Unstructured notes + provenance |
-| `list_entity_types` / `batch_get_entities` | Filters & hydrate peers |
-| `ask_decisionpen` | Last-resort server Ask (prefer structured tools above) |
-
-Deep dive: **[docs/context-engine.md](./docs/context-engine.md)**
-
-**Capability-first pattern** (from DecisionPen’s Enterprise Ask practice): for “what apps support X?”, search capabilities/processes named like X, follow Confirmed relationships to applications, then optionally load evidence — always separating **Confirmed on the map** from **notes only**.
-
----
-
-## Ingestion tools (Edge connector — optional)
-
-Feed DecisionPen from documents you already trust (HLDs, PDFs, architecture packs in S3) **without** giving DecisionPen your AWS keys.
-
-| Tool / command | Purpose |
-|----------------|---------|
-| `list_sources` / `search_docs` / `get_document` | Cite from an allowlisted S3 prefix (no persist) |
-| `propose_enrichment` / `run_sync` | Push content → Insights Inbox for human review |
-| `python -m decisionpen_mcp sync` | Cron-friendly sync |
-
-Trust ladder (`DP_MCP_MODE`): `cite_only` → `propose` → human approve in-app before Confirmed.  
-Guides: **[docs/edge-sync.md](./docs/edge-sync.md)** · **[docs/security.md](./docs/security.md)** · **[docs/propose-inbox.md](./docs/propose-inbox.md)**
-
----
-
-## Docker
-
-```bash
-docker build -t decisionpen-mcp .
-docker run --rm -i --env-file .env.mcp decisionpen-mcp mcp
-docker run --rm --env-file edge.env -v dp-sync:/data decisionpen-mcp sync --dry-run
+# set DP_API_BASE + DP_API_TOKEN
 ```
 
 ---
 
-## Documentation
+## Security defaults
 
-| Doc | Topic |
-|-----|--------|
-| [Context Engine](./docs/context-engine.md) | Research: map-grounded EA Q&A |
-| [Claude Desktop](./docs/claude-desktop.md) | Install for Claude |
-| [Cursor](./docs/cursor.md) | Install for Cursor |
-| [Edge sync](./docs/edge-sync.md) | Ingestion: S3 → Inbox |
-| [Security](./docs/security.md) | Tokens, allowlists, trust ladder |
-| [Propose / Inbox](./docs/propose-inbox.md) | Human approval before Confirmed |
+- DecisionPen does **not** store customer S3 keys on the edge push path. Credentials stay on the edge (your laptop, VPC, or container).  
+- Prefix allowlisting, audit log, and rate limits apply.  
+- Tokens are hashed at rest; revoke anytime in Admin.
 
 ---
 
-## Requirements
+## Related product story
 
-- Python 3.10+
-- DecisionPen API reachable from the machine running MCP
-- Edge API token (recommended) or session JWT (interactive only)
-- Optional: AWS credentials scoped to one S3 prefix for Edge ingestion
-
----
-
-## Roadmap
-
-- Hosted / remote MCP transport for teams  
-- PyPI / GHCR packaged releases  
-- More Edge adapters beyond S3  
-
----
-
-## Related
-
-- Product: [decisionpen.com](https://decisionpen.com/)  
-- [What is an Architecture Decision Workspace?](https://decisionpen.com/docs/architecture-decision-workspace)  
+- [Architecture Context Plane](https://decisionpen.com/docs/architecture-context-plane)  
+- [Architecture Decision Workspace](https://decisionpen.com/docs/architecture-decision-workspace)  
+- [Incremental modelling](https://decisionpen.com/docs/incremental-modelling)  
 - [Enterprise Ask](https://decisionpen.com/docs/enterprise-ask)  
-- Protocol: [Model Context Protocol](https://modelcontextprotocol.io)  
-
-## License
-
-MIT — see [LICENSE](./LICENSE).
-
----
-
-**Keywords:** MCP server, Claude Desktop MCP, Cursor MCP, enterprise architecture AI, Architecture Decision Workspace, enterprise architecture context engine, Confirmed application landscape, LeanIX-aligned MCP, evidence-grounded EA assistant, architecture ingestion MCP.
