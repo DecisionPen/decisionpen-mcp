@@ -5,7 +5,17 @@ Canonical marketing guide: [decisionpen.com/docs/connect-mcp-cursor-claude](http
 
 ## What you will have when finished
 
-Claude Desktop or Cursor can call DecisionPen MCP tools: search the Enterprise Knowledge Graph, read evidence, and (if you enable propose mode) publish documents for human review. No Anthropic API key is required for MCP itself.
+Claude Desktop or Cursor can call DecisionPen MCP tools: search the Enterprise Knowledge Graph, read evidence and standards, and (if you enable propose mode) publish documents for human review. Use Claude for decision research on the Context of Record; use Cursor so delivery follows approved patterns and can write architecture back. No Anthropic API key is required for MCP itself.
+
+Hosted remote alternative: [`https://mcp.decisionpen.com/mcp`](https://mcp.decisionpen.com/mcp) with header `Authorization: Bearer dp_edge_…` (no local stdio process). Local stdio remains the default laptop path below.
+
+## Why Claude
+
+Use Claude when you need deep research over the Context of Record before an important decision. After DecisionPen holds entities and evidence — from a CMDB seed, document discovery, or both — Claude can interrogate landscape, dependencies, standards, and prior decisions without rebuilding the estate in the chat window. Connecting Claude is a natural part of a DecisionPen trial.
+
+## Why Cursor
+
+Use Cursor when agentic delivery must follow enterprise patterns and standards. DecisionPen holds approved reference architectures, design patterns, security, compliance, and privacy context. Cursor can query that pack while designing and implementing, then publish ADRs and design notes back so institutional memory stays current for the next programme.
 
 ## 1. Create an Edge API token (Admin)
 

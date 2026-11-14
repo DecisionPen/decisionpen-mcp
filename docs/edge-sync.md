@@ -1,8 +1,8 @@
 # Edge ingestion — S3 → DecisionPen (via MCP / sync CLI)
 
-This is the **ingestion** side of DecisionPen MCP: bring institutional memory (HLDs, PDFs, architecture packs) into DecisionPen for AI proposal + **human curation**, without giving DecisionPen your AWS keys.
+This is the **ingestion** side of DecisionPen MCP: bring institutional memory (HLDs, PDFs, architecture packs) into DecisionPen for rapid enterprise discovery, AI proposal, and **human curation**, without giving DecisionPen your AWS keys. From the corpus, DecisionPen can propose LeanIX-aligned structure; if you already seeded from a CMDB, document knowledge attaches to those entities.
 
-Research (asking the map) is covered in [context-engine.md](./context-engine.md). Product loop: [how DecisionPen works](https://decisionpen.com/product) — seed/ingest → propose → curate → map → ask.
+Research (asking the map) is covered in [context-engine.md](./context-engine.md). Product loop: [how DecisionPen works](https://decisionpen.com/product) — seed/ingest → propose → curate → map → ask. Marketing guide: [Connect S3 documents](https://decisionpen.com/docs/mcp-s3-document-store).
 
 ## Why Edge?
 

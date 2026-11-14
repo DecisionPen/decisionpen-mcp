@@ -2,16 +2,24 @@
 
 This guide is for **research**: asking Claude Desktop, Cursor, or any MCP client questions against DecisionPen’s curated landscape.
 
-For product background, see [decisionpen.com](https://decisionpen.com/). For feeding documents into DecisionPen, see [edge-sync.md](./edge-sync.md).
+For product background, see [decisionpen.com](https://decisionpen.com/). For feeding documents into DecisionPen, see [edge-sync.md](./edge-sync.md). Marketing story: [Context Engine (MCP)](https://decisionpen.com/docs/context-engine-mcp).
 
 ## What DecisionPen is (short)
 
-DecisionPen is an **Architecture Decision Workspace**. It keeps two layers together:
+DecisionPen is the **Context of Record for IT architecture** — an Architecture Decision Workspace. It keeps two layers together:
 
 1. **Confirmed map** — structured EA entities and relationships (applications, capabilities, technology, integrations, initiatives), metamodel-aware and LeanIX-aligned when you need that standard.  
 2. **Evidence** — documents, transcripts, and notes that justify the map, with citations.
 
 AI can propose; humans curate. Enterprise Ask then answers from the **accepted** model — map-grounded and evidence-aware — not from raw document similarity alone. See [Enterprise Ask](https://decisionpen.com/docs/enterprise-ask).
+
+## Three jobs the MCP door supports
+
+1. **Rapid discovery** — connect an allowlisted S3 corpus; propose LeanIX-aligned structure; enrich CMDB-seeded entities; keep document evidence queryable ([edge-sync.md](./edge-sync.md)).  
+2. **Claude** — deep research over the Context of Record before important decisions ([claude-desktop.md](./claude-desktop.md)).  
+3. **Cursor** — pull approved patterns and standards during delivery; publish ADRs back for curation ([cursor.md](./cursor.md)).
+
+Hosted remote endpoint: `https://mcp.decisionpen.com/mcp` with `Authorization: Bearer dp_edge_…`.
 
 ## What MCP does here
 

@@ -1,6 +1,6 @@
 # Edge push sync (S3) — 5-minute setup
 
-Customer-edge process downloads from **your** S3 and pushes content + provenance to DecisionPen. **DecisionPen never holds your AWS keys** on this path.
+Customer-edge process downloads from **your** S3 and pushes content + provenance to DecisionPen for rapid enterprise discovery and enrichment. Documents propose LeanIX-aligned structure; CMDB-seeded entities can be enriched in place. **DecisionPen never holds your AWS keys** on this path.
 
 Product overview (SEO / plain English): [Connect an S3 document repository via MCP](https://decisionpen.com/docs/mcp-s3-document-store).  
 Claude/Cursor connection: [CONNECT.md](./CONNECT.md) · [README.md](./README.md).

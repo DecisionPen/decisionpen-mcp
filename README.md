@@ -6,9 +6,17 @@
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![DecisionPen](https://img.shields.io/badge/Product-decisionpen.com-0B3D5C.svg)](https://decisionpen.com/)
 
-**DecisionPen** is the Architecture Context Plane — institutional memory of how the enterprise is built and why. Agents help keep it current. Humans review what becomes trusted.
+**DecisionPen** is the Context of Record for IT architecture — institutional memory of how the enterprise is built and why. Agents help keep it current. Humans review what becomes trusted.
 
-This repository ships the **Context Engine**: an MCP server that connects Claude, Cursor, and other agents to that plane. Agents can read the Enterprise Knowledge Graph, evidence, and decisions; read allowlisted document stores; and publish requirements, ADRs, and notes back. **MCP never Confirmed-writes the architecture map.** Humans approve what joins the graph.
+This repository ships the **Context Engine**: an MCP server that connects Claude, Cursor, and other agents to that plane. Three common jobs:
+
+1. **Rapid discovery** — connect an allowlisted S3 document corpus; DecisionPen proposes LeanIX-aligned structure and keeps document evidence; CMDB-seeded entities get enriched instead of duplicated.  
+2. **Claude** — deep research over the Context of Record before important decisions (natural trial path).  
+3. **Cursor / agentic SDLC** — pull approved patterns and standards while building; publish ADRs and design notes back for human curation.
+
+Agents can read the Enterprise Knowledge Graph, evidence, decisions, and context surfaces; read allowlisted document stores; and publish requirements, ADRs, and notes back. **MCP never Confirmed-writes the architecture map.** Humans approve what joins the graph.
+
+Hosted remote endpoint (registry / cloud clients): [`https://mcp.decisionpen.com/mcp`](https://mcp.decisionpen.com/mcp) with `Authorization: Bearer dp_edge_…`.
 
 | Guide | What it covers |
 |-------|----------------|
