@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "decisionpen": {
+      "url": "https://mcp.decisionpen.com/mcp",
+      "headers": {
+        "Authorization": "Bearer dp_edge_..."
+      }
+    }
+  }
+}

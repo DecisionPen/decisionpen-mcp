@@ -76,7 +76,7 @@ Other good prompts (from DecisionPen’s Ask practice):
 ## Config (research-only)
 
 ```bash
-DP_API_BASE=https://YOUR_DECISIONPEN_HOST
+DP_API_BASE=https://api.decisionpen.com
 DP_API_TOKEN=dp_edge_…
 DP_MCP_MODE=cite_only
 # S3 env vars are optional for Context Engine-only use

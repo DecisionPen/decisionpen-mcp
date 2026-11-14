@@ -7,7 +7,7 @@ Canonical marketing guide: [decisionpen.com/docs/connect-mcp-cursor-claude](http
 
 Claude Desktop or Cursor can call DecisionPen MCP tools: search the Enterprise Knowledge Graph, read evidence and standards, and (if you enable propose mode) publish documents for human review. Use Claude for decision research on the Context of Record; use Cursor so delivery follows approved patterns and can write architecture back. No Anthropic API key is required for MCP itself.
 
-Hosted remote alternative: [`https://mcp.decisionpen.com/mcp`](https://mcp.decisionpen.com/mcp) with header `Authorization: Bearer dp_edge_…` (no local stdio process). Local stdio remains the default laptop path below.
+**Customers and trials use the hosted MCP endpoint.** You do not need a local DecisionPen (or Archimedes) install on your laptop.
 
 ## Why Claude
 
@@ -23,13 +23,49 @@ Use Cursor when agentic delivery must follow enterprise patterns and standards. 
 2. Open **Admin → Security & audit**.  
 3. Open **Edge API tokens**.  
 4. **Create** a token. Copy the secret once (`dp_edge_…`). You will not see it again.  
-5. Store it as `DP_API_TOKEN` in your edge env (never commit it).
-
-**Interactive tryouts only:** you may paste a browser session JWT instead. Prefer Edge tokens for anything lasting (Cursor daily use, cron, Docker).
+5. Keep it for the client config below (never commit it).
 
 Revoke tokens anytime from the same Admin screen.
 
-## 2. Install the MCP server
+## 2. Connect Cursor or Claude (hosted — recommended)
+
+Point the client at DecisionPen’s remote MCP server. There is no local Python process and **no `DP_API_BASE`** in this config.
+
+```json
+{
+  "mcpServers": {
+    "decisionpen": {
+      "url": "https://mcp.decisionpen.com/mcp",
+      "headers": {
+        "Authorization": "Bearer dp_edge_..."
+      }
+    }
+  }
+}
+```
+
+Templates: [examples/cursor.remote.mcp.json](./examples/cursor.remote.mcp.json) · [examples/claude_desktop.remote.mcp.json](./examples/claude_desktop.remote.mcp.json)
+
+Reload MCP (Cursor) or restart Claude Desktop. Ask the agent to call `describe_context_model`, then try a landscape question using `search_entities` and `get_entity_evidence`.
+
+Health: `https://mcp.decisionpen.com/health`
+
+### Two different hosts
+
+| Role | URL |
+|------|-----|
+| Agents (Claude, Cursor) | `https://mcp.decisionpen.com/mcp` |
+| Edge / ops processes (`DP_API_BASE`) | `https://api.decisionpen.com` |
+
+Do **not** put the MCP URL in `DP_API_BASE`. The API host serves REST (`/api/...`). The MCP host serves Streamable HTTP (`/mcp`).
+
+## 3. Enable publish (optional)
+
+When agents should push ADRs, requirements, or notes, use propose-capable tools from an allowed session, then review proposals in DecisionPen **Inbox**. Humans approve; the Confirmed map does not auto-update. For S3 document discovery, see [SYNC.md](./SYNC.md) and [mcp-s3-document-store](https://decisionpen.com/docs/mcp-s3-document-store).
+
+## 4. Optional: local stdio (contributors only)
+
+If you are developing the Context Engine itself, clone this repo and run stdio locally. Customers on a DecisionPen trial do not need this path.
 
 ```bash
 git clone https://github.com/DecisionPen/decisionpen-mcp.git
@@ -40,89 +76,19 @@ pip install -e .
 cp examples/.env.mcp.example .env.mcp
 ```
 
-Edit `.env.mcp` (minimum for graph + Ask tools):
-
 ```bash
-DP_API_BASE=https://<your-decisionpen-host>   # or http://localhost:8000 locally
+DP_API_BASE=https://api.decisionpen.com
 DP_API_TOKEN=dp_edge_...
-DP_MCP_MODE=cite_only                         # use propose when ready to publish
+DP_MCP_MODE=cite_only
 ```
 
-S3 variables are **optional** until you connect a document repository — see [SYNC.md](./SYNC.md) and [mcp-s3-document-store](https://decisionpen.com/docs/mcp-s3-document-store).
-
-Templates: [examples/cursor.mcp.json](./examples/cursor.mcp.json) · [examples/claude_desktop.mcp.json](./examples/claude_desktop.mcp.json)
-
-## 3. Connect Cursor
-
-Add a server entry to your Cursor MCP config (paths must be absolute):
-
-```json
-{
-  "mcpServers": {
-    "decisionpen": {
-      "command": "/ABSOLUTE/PATH/decisionpen-mcp/.venv/bin/python",
-      "args": ["-m", "decisionpen_mcp", "mcp"],
-      "env": {
-        "DP_API_BASE": "https://<your-decisionpen-host>",
-        "DP_API_TOKEN": "dp_edge_...",
-        "DP_MCP_MODE": "cite_only"
-      }
-    }
-  }
-}
-```
-
-Windows: point `command` at `.venv\\Scripts\\python.exe`.
-
-Reload MCP in Cursor. Ask the agent to call `describe_context_model`, then try a landscape question using `search_entities` and `get_entity_evidence`.
-
-## 4. Connect Claude Desktop
-
-Same server shape in Claude Desktop MCP settings:
-
-```json
-{
-  "mcpServers": {
-    "decisionpen": {
-      "command": "/ABSOLUTE/PATH/decisionpen-mcp/.venv/bin/python",
-      "args": ["-m", "decisionpen_mcp", "mcp"],
-      "env": {
-        "DP_API_BASE": "https://<your-decisionpen-host>",
-        "DP_API_TOKEN": "dp_edge_...",
-        "DP_MCP_MODE": "cite_only"
-      }
-    }
-  }
-}
-```
-
-Restart Claude Desktop after changes.
-
-## 5. Enable publish (optional)
-
-When you want agents to push ADRs, requirements, or notes:
-
-1. Set `DP_MCP_MODE=propose`.  
-2. Reload MCP.  
-3. Use `submit_document` (or `propose_enrichment` with S3).  
-4. Review proposals in DecisionPen **Inbox**. Humans approve; the Confirmed map does not auto-update.
-
-## 6. Optional: document repositories
-
-To let agents list/search/fetch under an allowlisted S3 prefix, configure bucket + prefix + AWS auth, then follow [SYNC.md](./SYNC.md). Product summary: [Connect S3 via MCP](https://decisionpen.com/docs/mcp-s3-document-store).
-
-## Test without an LLM
-
-```bash
-npx @modelcontextprotocol/inspector -- .venv/bin/python -m decisionpen_mcp mcp
-```
+Local client example: [examples/cursor.mcp.json](./examples/cursor.mcp.json) · [examples/claude_desktop.mcp.json](./examples/claude_desktop.mcp.json)
 
 ## Tips
 
 - Prefer Context Engine tools (`search_entities`, relationships, evidence) over `ask_decisionpen` so the agent owns the research plan.  
 - Cite `fragment_id` / `source_title` when quoting evidence.  
 - Do not invent Confirmed relationships from prose alone.  
-- Ask spend uses the org LLM budget (same as in-app Ask).
 
 ## Related
 

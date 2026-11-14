@@ -4,7 +4,7 @@
       "command": "/ABSOLUTE/PATH/decisionpen-mcp/.venv/bin/python",
       "args": ["-m", "decisionpen_mcp", "mcp"],
       "env": {
-        "DP_API_BASE": "https://YOUR_DECISIONPEN_HOST",
+        "DP_API_BASE": "https://api.decisionpen.com",
         "DP_API_TOKEN": "dp_edge_…",
         "DP_MCP_MODE": "cite_only"
       }

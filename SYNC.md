@@ -15,7 +15,7 @@ Session JWTs still work for interactive Claude/Cursor tests; use Edge tokens for
 ## 2. Fill `edge.env`
 
 ```bash
-DP_API_BASE=https://<your-decisionpen-host>
+DP_API_BASE=https://api.decisionpen.com
 DP_API_TOKEN=dp_edge_...
 DP_MCP_MODE=propose
 DP_S3_BUCKET=my-ea-docs
