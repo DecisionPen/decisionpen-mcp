@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.decisionpen/mcp",
+  "title": "DecisionPen Context Engine",
+  "description": "Architecture context for Claude and Cursor: estate graph, evidence, standards; ADRs back for review.",
+  "repository": {
+    "url": "https://github.com/DecisionPen/decisionpen-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "websiteUrl": "https://decisionpen.com/docs/context-engine-mcp",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.decisionpen.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "DecisionPen Edge API token as Bearer (Admin → Security & audit → Edge API tokens), e.g. Bearer dp_edge_…",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}
