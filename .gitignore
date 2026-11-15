@@ -231,3 +231,8 @@ sync_state.json
 *.audit.jsonl
 .DS_Store
 .idea/
+
+mcp-publisher.exe
+key.pem
+private-key.hex
+proof-record.txt
