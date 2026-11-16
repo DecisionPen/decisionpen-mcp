@@ -1,7 +1,7 @@
 {
   "name": "decisionpen",
   "version": "1.0.0",
-  "description": "Enterprise architecture Context Engine for Cursor — estate graph, evidence, standards, and ADR proposals via DecisionPen MCP.",
+  "description": "Enterprise architecture Context Engine for Cursor — pull requirements, reference architectures, and patterns from DecisionPen for compliant designs, then publish architecture details back to keep institutional memory current.",
   "author": {
     "name": "DecisionPen",
     "email": "hello@decisionpen.com"
