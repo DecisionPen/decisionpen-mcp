@@ -46,6 +46,8 @@ Point the client at DecisionPen’s remote MCP server. There is no local Python 
 
 Templates: [examples/cursor.remote.mcp.json](./examples/cursor.remote.mcp.json) · [examples/claude_desktop.remote.mcp.json](./examples/claude_desktop.remote.mcp.json)
 
+For Cursor plugin directories ([cursor.directory](https://cursor.directory), Cursor Marketplace), this repo also ships a root [`mcp.json`](./mcp.json) and [`.cursor-plugin/plugin.json`](./.cursor-plugin/plugin.json). Install the plugin, then set `DP_API_TOKEN` to your Edge API token (`dp_edge_…`) when prompted.
+
 Reload MCP (Cursor) or restart Claude Desktop. Ask the agent to call `describe_context_model`, then try a landscape question using `search_entities` and `get_entity_evidence`.
 
 Health: `https://mcp.decisionpen.com/health`
