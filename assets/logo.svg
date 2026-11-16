@@ -1,0 +1,26 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="dpLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="dpPenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="34" width="32" height="7" rx="2" fill="url(#dpLogoGrad)" opacity="0.35"/>
+  <rect x="12" y="26" width="4" height="8" rx="1" fill="url(#dpLogoGrad)"/>
+  <rect x="20" y="22" width="4" height="12" rx="1" fill="url(#dpLogoGrad)"/>
+  <rect x="28" y="24" width="4" height="10" rx="1" fill="url(#dpLogoGrad)"/>
+  <rect x="36" y="28" width="4" height="6" rx="1" fill="url(#dpLogoGrad)"/>
+  <g transform="translate(24, 10)">
+    <path d="M -6 0 L -2 -6 L 2 -6 L 6 0 L 6 16 L -6 16 Z" fill="url(#dpPenGrad)" stroke="#1E40AF" stroke-width="0.5"/>
+    <path d="M -2 -6 L 0 -10 L 2 -6" fill="#1E40AF"/>
+    <path d="M -4 2 L -1 2 L -1 14 L -4 14 Z" fill="rgba(255, 255, 255, 0.3)"/>
+    <path d="M -3 6 L -1 8 L 3 4" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <circle cx="14" cy="16" r="1.5" fill="#FBBF24" opacity="0.8"/>
+  <circle cx="34" cy="20" r="1" fill="#60A5FA" opacity="0.6"/>
+</svg>

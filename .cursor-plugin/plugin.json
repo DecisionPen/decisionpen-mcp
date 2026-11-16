@@ -1,0 +1,32 @@
+{
+  "name": "decisionpen",
+  "version": "1.0.0",
+  "description": "Enterprise architecture Context Engine for Cursor — estate graph, evidence, standards, and ADR proposals via DecisionPen MCP.",
+  "author": {
+    "name": "DecisionPen",
+    "email": "hello@decisionpen.com"
+  },
+  "homepage": "https://decisionpen.com/docs/context-engine-mcp",
+  "repository": "https://github.com/DecisionPen/decisionpen-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "architecture",
+    "enterprise-architecture",
+    "context-engine",
+    "decisionpen",
+    "adr"
+  ],
+  "logo": "assets/logo.svg",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "DP_API_TOKEN": {
+        "type": "string",
+        "title": "DecisionPen Edge API token",
+        "description": "From Admin → Security & audit → Edge API tokens (dp_edge_…). Used as Bearer auth for https://mcp.decisionpen.com/mcp."
+      }
+    },
+    "required": ["DP_API_TOKEN"]
+  }
+}

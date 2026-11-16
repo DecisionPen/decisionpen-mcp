@@ -21,7 +21,7 @@ Hosted remote endpoint (registry / cloud clients): [`https://mcp.decisionpen.com
 | Guide | What it covers |
 |-------|----------------|
 | **This page** | What DecisionPen is, what MCP does, and the tools in plain English |
-| [CONNECT.md](./CONNECT.md) | Connect Claude or Cursor (including Edge API tokens) |
+| [CONNECT.md](./CONNECT.md) | Connect Claude or Cursor (including Edge API tokens / Cursor plugin) |
 | [CONTEXT.md](./CONTEXT.md) | Tool recipes for research and solution design |
 | [SYNC.md](./SYNC.md) | S3 allowlist sync runbook |
 | Product docs | [decisionpen.com/docs/context-engine-mcp](https://decisionpen.com/docs/context-engine-mcp) |
